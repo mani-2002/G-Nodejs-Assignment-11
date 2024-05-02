@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+</head>
+<body>
+  <h1>Payment Form</h1>
+  <form action="/user/make-payment" method="post">
+    <label for="accountNumber">Bank Account Number:</label>
+    <input type="text" id="accountNumber" name="accountNumber" required><br>
+
+    <label for="ifscCode">IFSC Code:</label>
+    <input type="text" id="ifscCode" name="ifscCode" required><br>
+
+    <label for="customerId">Customer ID:</label>
+    <input type="text" id="customerId" name="customerId" required><br>
+
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" name="amount" required><br>
+
+    <label for="paymentMethod">Payment Method:</label>
+    <select id="paymentMethod" name="paymentMethod" required>
+      <option value="upi">UPI</option>
+      <option value="direct">Direct to Bank</option>
+    </select><br>
+
+    <label for="currency">Currency:</label>
+    <select id="currency" name="currency" required>
+      <option value="INR">Indian Rupees</option>
+      <option value="USD">US Dollars</option>
+    </select><br>
+
+    <input type="submit" value="Make Payment">
+  </form>
+<script>
+    function handlePaymentResponse(response) {
+      if (response.ok) {
+        alert('Payment successful!');
+        window.location.href = '/admin/payment'; 
+      } else {
+        alert('Payment failed. Please try again.');
+      }
+    }
+  </script>  
+</body>
+</html>

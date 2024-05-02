@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Payments</title>
+  <style>
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Successful Payments</h1>
+  <button onclick="showPopup()">Show Successful Payments</button>
+
+  <div id="popup" class="popup"></div>
+
+  <script>
+    function showPopup() {
+      fetch('/admin/successful-payments')
+        .then(response => response.json())
+        .then(data => {
+          const popup = document.getElementById('popup');
+          popup.innerHTML = '<h2>Successful Payments</h2>';
+          
+          if (data.length === 0) {
+            popup.innerHTML += '<p>No successful payments yet.</p>';
+          } else {
+            data.forEach(payment => {
+              popup.innerHTML += `
+                <p>Transaction ID: ${payment.transaction_id}</p>
+                <p>Customer ID: ${payment.customer_id}</p>
+                <p>Transaction Date: ${payment.transaction_date}</p>
+                <p>Amount: ${payment.amount} ${payment.currency}</p>
+                <p>Payment Method: ${payment.payment_method}</p>
+                <hr>
+              `;
+            });
+          }
+
+          popup.style.display = 'block';
+        })
+        .catch(error => console.error('Error fetching successful payments:', error));
+    }
+  </script>
+</body>
+</html>
